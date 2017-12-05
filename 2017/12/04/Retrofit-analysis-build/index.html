@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Markdown," />
+  <meta name="keywords" content="Retrofit," />
 
 
 
@@ -96,19 +96,17 @@
 
 
 
-<meta name="description" content="标题标题前加#和空格，根据#个数不同区分字号，#越多字号越小，貌似最多能有6个。效果略。 粗体和斜体文字前后加相同个数的*号，1*为斜体，2*为粗体，3*又粗又斜。效果如下：粗体文字斜体文字斜粗文字">
-<meta name="keywords" content="Markdown">
+<meta name="description" content="本文为Retroifit源码分析的第一篇，主要讲述Retrofit的创建，版本为2.3。先上一段代码看下最常见的创建Retrofit的方式：12345Retrofit retrofit = new Retrofit.Builder()                .baseUrl(&quot;https://api.github.com/&quot;)                .addConverterFac">
+<meta name="keywords" content="Retrofit">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Markdown Note">
-<meta property="og:url" content="http://yoursite.com/2017/11/29/Markdown-Demo/index.html">
+<meta property="og:title" content="Retrofit分析之Retrofit的创建">
+<meta property="og:url" content="http://yoursite.com/2017/12/04/Retrofit-analysis-build/index.html">
 <meta property="og:site_name" content="Happy First">
-<meta property="og:description" content="标题标题前加#和空格，根据#个数不同区分字号，#越多字号越小，貌似最多能有6个。效果略。 粗体和斜体文字前后加相同个数的*号，1*为斜体，2*为粗体，3*又粗又斜。效果如下：粗体文字斜体文字斜粗文字">
-<meta property="og:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511973124996&di=7a58729b39968c8a947f399340f33782&imgtype=0&src=http%3A%2F%2Fimg1.qq.com%2Fent%2F20050413%2F1617502.jpg">
-<meta property="og:updated_time" content="2017-12-05T15:20:27.480Z">
+<meta property="og:description" content="本文为Retroifit源码分析的第一篇，主要讲述Retrofit的创建，版本为2.3。先上一段代码看下最常见的创建Retrofit的方式：12345Retrofit retrofit = new Retrofit.Builder()                .baseUrl(&quot;https://api.github.com/&quot;)                .addConverterFac">
+<meta property="og:updated_time" content="2017-12-05T15:24:57.492Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Markdown Note">
-<meta name="twitter:description" content="标题标题前加#和空格，根据#个数不同区分字号，#越多字号越小，貌似最多能有6个。效果略。 粗体和斜体文字前后加相同个数的*号，1*为斜体，2*为粗体，3*又粗又斜。效果如下：粗体文字斜体文字斜粗文字">
-<meta name="twitter:image" content="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1511973124996&di=7a58729b39968c8a947f399340f33782&imgtype=0&src=http%3A%2F%2Fimg1.qq.com%2Fent%2F20050413%2F1617502.jpg">
+<meta name="twitter:title" content="Retrofit分析之Retrofit的创建">
+<meta name="twitter:description" content="本文为Retroifit源码分析的第一篇，主要讲述Retrofit的创建，版本为2.3。先上一段代码看下最常见的创建Retrofit的方式：12345Retrofit retrofit = new Retrofit.Builder()                .baseUrl(&quot;https://api.github.com/&quot;)                .addConverterFac">
 
 
 
@@ -136,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/11/29/Markdown-Demo/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/04/Retrofit-analysis-build/"/>
 
 
 
 
 
-  <title>Markdown Note | Happy First</title>
+  <title>Retrofit分析之Retrofit的创建 | Happy First</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -292,7 +290,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/29/Markdown-Demo/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/04/Retrofit-analysis-build/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="米饭">
@@ -309,7 +307,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Markdown Note</h1>
+          <h1 class="post-title" itemprop="name headline">Retrofit分析之Retrofit的创建</h1>
         
 
         <div class="post-meta">
@@ -321,8 +319,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-29T20:02:14+08:00">
-                2017-11-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-04T21:13:37+08:00">
+                2017-12-04
               </time>
             
 
@@ -344,8 +342,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Tool/" itemprop="url" rel="index">
-                    <span itemprop="name">Tool</span>
+                  <a href="/categories/RTFSC/" itemprop="url" rel="index">
+                    <span itemprop="name">RTFSC</span>
                   </a>
                 </span>
 
@@ -378,57 +376,15 @@
       
 
       
-        <h3 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h3><p>标题前加#和空格，根据#个数不同区分字号，#越多字号越小，貌似最多能有6个。效果略。</p>
-<h3 id="粗体和斜体"><a href="#粗体和斜体" class="headerlink" title="粗体和斜体"></a>粗体和斜体</h3><p>文字前后加相同个数的*号，1*为斜体，2*为粗体，3*又粗又斜。效果如下：<br><strong>粗体文字</strong><br><em>斜体文字</em><br><strong><em>斜粗文字</em></strong><br><a id="more"></a></p>
-<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>要引用的文本内容前加&gt;和空格。效果如下：</p>
-<blockquote>
-<p>川岛和津实凭借清纯稚嫩的天使脸孔、白滑丰满的魔鬼身材，被喻为“20世纪最后の美少女”、“永远的女神”、“纯绝AV界之天使”。</p>
-</blockquote>
-<h3 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h3><p>无符号列表项前加-和空格，有符号列表项前加数字.和空格。效果如下：</p>
-<h4 id="无符号列表"><a href="#无符号列表" class="headerlink" title="无符号列表"></a>无符号列表</h4><ul>
-<li>列表项1</li>
-<li>列表项2</li>
-<li>列表项3</li>
-</ul>
-<h4 id="有符号列表"><a href="#有符号列表" class="headerlink" title="有符号列表"></a>有符号列表</h4><ol>
-<li>列表项1</li>
-<li>列表项2</li>
-<li>列表项3</li>
-</ol>
-<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><h4 id="单行代码"><a href="#单行代码" class="headerlink" title="单行代码"></a>单行代码</h4><p>前后用`包裹，效果如下：<br>我想<code>I wanna faq janham</code>大丈夫萌大奶</p>
-<h4 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h4><p>前后用```包裹，效果如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">I wanna</div><div class="line">faq</div><div class="line">janham</div></pre></td></tr></table></figure></p>
-<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><h4 id="文本链接"><a href="#文本链接" class="headerlink" title="文本链接"></a>文本链接</h4><p>格式如：[链接文本](链接地址, “鼠标悬停提示文字”)，效果如下：<br><a href="https://en.wikipedia.org/wiki/Azumi_Kawashima" title="川岛和津实" target="_blank" rel="external">Azumi Kawashima</a></p>
-<h4 id="图片链接"><a href="#图片链接" class="headerlink" title="图片链接"></a>图片链接</h4><p>格式如：![](链接地址)，效果如下：<br><img src="https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1511973124996&amp;di=7a58729b39968c8a947f399340f33782&amp;imgtype=0&amp;src=http%3A%2F%2Fimg1.qq.com%2Fent%2F20050413%2F1617502.jpg" alt="川岛和津实"></p>
-<h4 id="参考形式的链接"><a href="#参考形式的链接" class="headerlink" title="参考形式的链接"></a>参考形式的链接</h4><p>让你可以为链接定一个名称，之后你可以在文件的其他地方使用该链接名称来实现链接。<br>定义方式为 [链接名称]: 链接地址 “鼠标悬停提示文字”，使用方式为[链接文本][链接名称]，效果如下：<br>I get 10 times more traffic from <a href="http://google.com/" title="谷歌" target="_blank" rel="external">Google</a> than from<br><a href="http://search.yahoo.com/" title="雅虎" target="_blank" rel="external">Yahoo</a> or <a href="http://search.msn.com/" title="爱慕爱死嗯" target="_blank" rel="external">MSN</a>.</p>
-<h3 id="绘制表格"><a href="#绘制表格" class="headerlink" title="绘制表格"></a>绘制表格</h3><p>格式如下：<br>| 第一列        | 第二列           | 第三列  |<br>| ————- |:————-:| —–:|<br>| 第一行      | 居中对齐 | 靠右 |<br>| 第二行      | 居中对齐      |   靠右 |<br>| 第三行 | 居中对齐      |    靠右 |<br>第二行设置三列分别为左对齐、居中和右对齐。<br>Hexo对Markdown表格处理的不好，下方的显示效果在每一行前面加了引用符号才能看到表格。</p>
-<blockquote>
-<table>
-<thead>
-<tr>
-<th>第一列</th>
-<th style="text-align:center">第二列</th>
-<th style="text-align:right">第三列</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>第一行</td>
-<td style="text-align:center">居中对齐</td>
-<td style="text-align:right">靠右</td>
-</tr>
-<tr>
-<td>第二行</td>
-<td style="text-align:center">居中对齐</td>
-<td style="text-align:right">靠右</td>
-</tr>
-<tr>
-<td>第三行</td>
-<td style="text-align:center">居中对齐</td>
-<td style="text-align:right">靠右</td>
-</tr>
-</tbody>
-</table>
-</blockquote>
+        <p>本文为Retroifit源码分析的第一篇，主要讲述Retrofit的创建，版本为2.3。<br>先上一段代码看下最常见的创建Retrofit的方式：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Retrofit retrofit = new Retrofit.Builder()</div><div class="line">                .baseUrl(<span class="string">"https://api.github.com/"</span>)</div><div class="line">                .addConverterFactory(GsonConverterFactory.create()) </div><div class="line">                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())</div><div class="line">                .build();</div></pre></td></tr></table></figure></p>
+<p>创建Retrofit没有直接new，而是用了喜闻乐见的Builder模式，先创建Builder，再逐一配置所需的参数，最后调用builder方法生成Retrofit对象。<br><a id="more"></a></p>
+<h3 id="创建Builder"><a href="#创建Builder" class="headerlink" title="创建Builder"></a>创建Builder</h3><p>Builder作为Retrofit的内部类，共有三个构造器，但只对外暴露了一个public的默认构造器供调用：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">public Builder() &#123;</div><div class="line">      this(Platform.get());</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>默认构造器又调用了另一个构造器：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Builder(Platform platform) &#123;</div><div class="line">      this.platform = platform;</div><div class="line">      converterFactories.add(new BuiltInConverters());</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>只是很简单地赋值给两个变量。<br>Platform的get方法用了单例模式，返回具体的平台类型，代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">private static final Platform PLATFORM = findPlatform();</div><div class="line"></div><div class="line">  static Platform get() &#123;</div><div class="line">    <span class="keyword">return</span> PLATFORM;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  private static Platform findPlatform() &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      Class.forName(<span class="string">"android.os.Build"</span>);</div><div class="line">      <span class="keyword">if</span> (Build.VERSION.SDK_INT != <span class="number">0</span>) &#123;</div><div class="line">        <span class="keyword">return</span> new Android();</div><div class="line">      &#125;</div><div class="line">    &#125; catch (ClassNotFoundException ignored) &#123;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      Class.forName(<span class="string">"java.util.Optional"</span>);</div><div class="line">      <span class="keyword">return</span> new Java8();</div><div class="line">    &#125; catch (ClassNotFoundException ignored) &#123;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> new Platform();</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>平台类型有三种，Platform及其子类Android、Java8。以Android为例:<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">static class Android extends Platform &#123;</div><div class="line">    @Override public Executor defaultCallbackExecutor() &#123;</div><div class="line">      return new MainThreadExecutor();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    @Override CallAdapter.Factory defaultCallAdapterFactory(@Nullable Executor callbackExecutor) &#123;</div><div class="line">      if (callbackExecutor == null) throw new AssertionError();</div><div class="line">      return new ExecutorCallAdapterFactory(callbackExecutor);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    static class MainThreadExecutor implements Executor &#123;</div><div class="line">      private final Handler handler = new Handler(Looper.getMainLooper());</div><div class="line"></div><div class="line">      @Override public void execute(Runnable r) &#123;</div><div class="line">        handler.post(r);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div></pre></td></tr></table></figure></p>
+<p>defaultCallbackExecutor方法返回一个MainThreadExecutor，用于接收到网络应答后将回调切换到主线程执行。<br>defaultCallAdapterFactory方法返回一个ExecutorCallAdapterFactory，用于存储对Call进行转化的对象。<br>这两个方法在Retrofit的build过程中会被调用。</p>
+<h3 id="build"><a href="#build" class="headerlink" title="build"></a>build</h3><p>创建Builder之后，可以先配置一系列必要参数，最后调build方法生成Retrofit对象。具体代码如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">public Retrofit build() &#123;</div><div class="line">      //baseUrl必须设置且不能为null</div><div class="line">      <span class="keyword">if</span> (baseUrl == null) &#123; </div><div class="line">        throw new IllegalStateException(<span class="string">"Base URL required."</span>);</div><div class="line">      &#125;</div><div class="line">	  </div><div class="line">      //如果没有通过client和callFactory方法配置OkHttpClient,创建一个</div><div class="line">      okhttp3.Call.Factory callFactory = this.callFactory;</div><div class="line">      <span class="keyword">if</span> (callFactory == null) &#123;</div><div class="line">        callFactory = new OkHttpClient();</div><div class="line">      &#125;</div><div class="line">	  </div><div class="line">      //如果没有通过callbackExecutor方法传入一个Executor，使用Platform的</div><div class="line">      Executor callbackExecutor = this.callbackExecutor;</div><div class="line">      <span class="keyword">if</span> (callbackExecutor == null) &#123;</div><div class="line">        callbackExecutor = platform.defaultCallbackExecutor();</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      // adapterFactories主要用于存储对Call进行转化的对象</div><div class="line">      List&lt;CallAdapter.Factory&gt; adapterFactories = new ArrayList&lt;&gt;(this.adapterFactories);</div><div class="line">      adapterFactories.add(platform.defaultCallAdapterFactory(callbackExecutor));</div><div class="line"></div><div class="line">      // converterFactories主要用于存储转化数据对象</div><div class="line">      List&lt;Converter.Factory&gt; converterFactories = new ArrayList&lt;&gt;(this.converterFactories);</div><div class="line"></div><div class="line">      // 创建Retrofit对象</div><div class="line">      <span class="keyword">return</span> new Retrofit(callFactory, baseUrl, converterFactories, adapterFactories,</div><div class="line">          callbackExecutor, validateEagerly);</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<p>代码很简单，参见注释。</p>
 
       
     </div>
@@ -479,7 +435,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Markdown/" rel="tag"># Markdown</a>
+            <a href="/tags/Retrofit/" rel="tag"># Retrofit</a>
           
         </div>
       
@@ -492,8 +448,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/21/Android-Studio/" rel="next" title="Android Studio使用指南">
-                <i class="fa fa-chevron-left"></i> Android Studio使用指南
+              <a href="/2017/11/29/Markdown-Demo/" rel="next" title="Markdown Note">
+                <i class="fa fa-chevron-left"></i> Markdown Note
               </a>
             
           </div>
@@ -501,10 +457,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/04/Retrofit-analysis-build/" rel="prev" title="Retrofit分析之Retrofit的创建">
-                Retrofit分析之Retrofit的创建 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -667,7 +619,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#标题"><span class="nav-number">1.</span> <span class="nav-text">标题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#粗体和斜体"><span class="nav-number">2.</span> <span class="nav-text">粗体和斜体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">3.</span> <span class="nav-text">引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列表"><span class="nav-number">4.</span> <span class="nav-text">列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#无符号列表"><span class="nav-number">4.1.</span> <span class="nav-text">无符号列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#有符号列表"><span class="nav-number">4.2.</span> <span class="nav-text">有符号列表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">5.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单行代码"><span class="nav-number">5.1.</span> <span class="nav-text">单行代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码块"><span class="nav-number">5.2.</span> <span class="nav-text">代码块</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接"><span class="nav-number">6.</span> <span class="nav-text">链接</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#文本链接"><span class="nav-number">6.1.</span> <span class="nav-text">文本链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图片链接"><span class="nav-number">6.2.</span> <span class="nav-text">图片链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考形式的链接"><span class="nav-number">6.3.</span> <span class="nav-text">参考形式的链接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绘制表格"><span class="nav-number">7.</span> <span class="nav-text">绘制表格</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建Builder"><span class="nav-number">1.</span> <span class="nav-text">创建Builder</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#build"><span class="nav-number">2.</span> <span class="nav-text">build</span></a></li></ol></div>
             
 
           </div>
